@@ -60,7 +60,6 @@ router.get('/addWarehouse',(req,res,next) => {
 })
 
 router.post('/addWarehouse',(req,res,next) => {
-
   console.log(req.body);
   adminWarehousehelper.addWarehouse(req.body).then((result) => {
     console.log(result);
@@ -112,7 +111,6 @@ router.get('/getWarehouseDetails',async (req,res,next) => {
 
 router.get('/removeStock',async (req,res,next) => {
   let wareHouse = await adminWarehousehelper.getWarehouseInStock()
-  // let produ = await adminWarehousehelper.getProductsInWarehouse()
   res.render('admin/removeStock',{
     layout : 'admin/layout',
     wareHouse : wareHouse,
@@ -160,8 +158,6 @@ router.get('/wareHouseDetails',async (req,res,next) => {
     req.session.wareHouseEmpty = false
   }
 
-  console.log("**** warehouse ****");
-  console.log(wareHouse);
   res.render('admin/wareHouseDetails',{
     layout : 'admin/layout',
     wareHouse : wareHouse,
@@ -169,12 +165,5 @@ router.get('/wareHouseDetails',async (req,res,next) => {
     'wareHouseEmpty' : req.session.wareHouseEmpty
   })
 })
-
-// router.get('/getStockDetails',async (req,res,next) => {
-//   console.log(req.query);
-//   // let wareHouse = await adminWarehousehelper.getProductStockLimit(req.query.wareHouseNumber)    
-//   console.log(wareHouse.stockLimit);
-//   res.send({stock : wareHouse.stockLimit})
-// })
 
 module.exports = router;

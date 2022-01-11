@@ -8,7 +8,6 @@ var db = require('./config/connections') //  requiring database
 require('dotenv').config()
 
 var adminRouter = require('./routes/admin');
-// var usersRouter = require('./routes/users');
 
 var app = express();
 
