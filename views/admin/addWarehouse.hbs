@@ -1,0 +1,125 @@
+
+
+<div class="container">
+
+
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title text-center text-center">Add Warehouse</h4>
+                {{!-- <p class="card-description"> Basic form elements </p> --}}
+                <form class="forms-sample" method="POST" action="/addWarehouse" name="addWarehouseForm" id="addWarehouseForm">
+
+
+                    <div class="form-group">
+                        <label for="exampleInputName1">Warehouse Number</label>
+                        <input type="number" class="form-control" id="warehouseNumber" placeholder="Warehouse Number"
+                            name="warehouseNumber" oninput="warehouseNumberValid()">
+                        <span id="warehouseNumberErr"></span>
+                        <span style="color: brown;" id="nameReq"></span>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputPrice1">Stock Limit</label>
+                        <input type="number" class="form-control" id="stockLimit" placeholder="Stock Limit" name="stockLimit"
+                            oninput="stockLimitValid()">
+                        {{!-- <span id="priceErr"></span> --}}
+                        <span style="color: brown;" id="stockLimitErr"></span>
+                    </div>
+
+                    <div id="submitdiv">
+                        <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
+                        <button class="btn btn-light" value="Reset">Cancel</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+{{#if wareHouseErr}}
+<script>
+    Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Warehouse with this Id already exist!',
+        showConfirmButton: true
+    })
+</script>
+{{/if}}
+
+
+<script>
+    // form validation
+    $("#addWarehouseForm").submit(function (event) {
+
+        var warehouseNumber = document.getElementById("warehouseNumber").value;
+        var stockLimit = document.getElementById("stockLimit").value;
+
+        if (warehouseNumber.trim() == " " || warehouseNumber.length < 3 || warehouseNumber.length > 4) {
+            event.preventDefault();
+            document.getElementById("warehouseNumber").focus()
+
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Please fill the form',
+                showConfirmButton: true
+            })
+        } else if (stockLimit.trim() == " " || stockLimit.length < 3 || stockLimit.length > 5 ) {
+            event.preventDefault();
+            document.getElementById("stockLimit").focus()
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Please fill the form',
+                showConfirmButton: true
+            })
+        }
+
+
+    });
+
+
+    function warehouseNumberValid() {
+        var number = document.getElementById("warehouseNumber").value;
+
+        if (number.length == 0) {
+            // document.getElementById("nameLen").style.display = "block";
+            document.getElementById("nameReq").innerHTML = "required ";
+
+            // document.getElementById("nameErr").style.display = "none";
+        } else if (number.length < 3) {
+            document.getElementById("nameReq").innerHTML = "Minimum length required";
+        }else if(number.length > 4){
+            document.getElementById("nameReq").innerHTML = "Maximum length exceeded";
+        }else {
+            document.getElementById("nameReq").innerHTML = " ";
+        }
+    }
+
+
+
+    function stockLimitValid() {
+        var number = document.getElementById("stockLimit").value;
+        if (number.length == 0) {
+            document.getElementById("stockLimitErr").innerHTML = "required ";
+
+        } else if (number.length < 3) {
+            document.getElementById("stockLimitErr").innerHTML = "Minimum Length required";
+
+        }else if (number.length > 5) {
+            document.getElementById("stockLimitErr").innerHTML = "Maximum length exceeded";
+
+        }else {
+            document.getElementById("stockLimitErr").innerHTML = " ";
+        }
+    }
+</script>

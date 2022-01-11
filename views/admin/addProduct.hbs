@@ -1,0 +1,122 @@
+<div class="container">
+
+
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title text-center">Add Product</h4>
+                {{!-- <p class="card-description"> Basic form elements </p> --}}
+                <form class="forms-sample" method="POST" action="/addProduct" name="addProductForm" id="addProductForm">
+
+
+                    <div class="form-group">
+                        <label for="exampleInputName1">Product Name</label>
+                        <input type="text" class="form-control" id="productName" placeholder="Product name"
+                            name="productName" oninput="proNameValid()">
+                        <span id="productNameErr"></span>
+                        <span style="color: brown;" id="nameReq"></span>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="exampleInputPrice1">Product unique ID</label>
+                        <input type="text" class="form-control" id="proId" placeholder="Product ID" name="proId"
+                            oninput="proIdValid()">
+                        {{!-- <span id="priceErr"></span> --}}
+                        <span style="color: brown;" id="proIdErr"></span>
+                    </div>
+
+                    <div id="submitdiv">
+                        <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
+                        <button class="btn btn-light">Cancel</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+{{#if productErr}}
+<script>
+    Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Product with this product Id already exist',
+        showConfirmButton: true
+    })
+</script>
+{{/if}}
+
+
+<script>
+    // form validation
+    $("#addProductForm").submit(function (event) {
+
+        var Product = document.getElementById("productName").value;
+        var proId = document.getElementById("proId").value;
+
+        if (Product.trim() == " " || Product.length < 1) {
+            event.preventDefault();
+            document.getElementById("productName").focus()
+
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Please fill the form',
+                showConfirmButton: true
+            })
+        } else if (proId.trim() == " " || proId.length < 1 || isNaN(proId)) {
+            event.preventDefault();
+            document.getElementById("proId").focus()
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Please fill the form',
+                showConfirmButton: true
+            })
+        }
+
+
+    });
+
+
+    function proNameValid() {
+        var text = document.getElementById("productName").value;
+
+        if (text.length == 0) {
+            // document.getElementById("nameLen").style.display = "block";
+            document.getElementById("nameReq").innerHTML = "required ";
+
+            // document.getElementById("nameErr").style.display = "none";
+        } else if (text.length < 3) {
+            document.getElementById("nameReq").innerHTML = "Minimum Length required";
+        } else {
+            document.getElementById("nameReq").innerHTML = " ";
+        }
+    }
+
+
+
+    function proIdValid() {
+        var text = document.getElementById("proId").value;
+        var letters = /^[a-zA-Z\s]*$/;
+        if (text.length == 0) {
+            document.getElementById("proIdErr").innerHTML = "required ";
+
+        } else if (isNaN(text)) {
+            document.getElementById("proIdErr").innerHTML = "Only numbers are allowed";
+        } else if (text.length < 1) {
+            document.getElementById("proIdErr").innerHTML = "Minimum Length required";
+
+        } else {
+            document.getElementById("proIdErr").innerHTML = " ";
+        }
+    }
+</script>

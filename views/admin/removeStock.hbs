@@ -1,0 +1,203 @@
+
+
+<style>
+    icon-shape {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .icon-sm {
+        width: 2rem;
+        height: 2rem;
+
+    }
+</style>
+
+
+
+<div class="container">
+
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title text-center">UnStock</h4>
+                {{!-- <p class="card-description"> Basic form elements </p> --}}
+                <form class="forms-sample" method="POST" action="/removeStock" name="removeStockForm" id="removeStockForm">
+
+
+                    <div class="form-group">
+                        <label for="exampleSelectCategory">Warehouse Number</label>
+                        <select class="form-control" id="select_wareHouseNumber" name="wareHouseNumber"
+                            onchange="warehouseSelect()">
+                            <option value="">Select warehouse number</option>
+                            {{#each wareHouse}}
+                            <option value="{{this._id}}" id="wareHouseNumber">{{this._id}}
+                            </option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="exampleSelectCategory">Product Unique ID</label>
+                        <select class="form-control" id="select_ProductId" name="productId" onchange="productSelect()">
+
+                            <option value="">Select product Id</option>
+                            <option value="{{this.productId}}" id="productId">{{this.productId}}</option>
+                            
+                        </select>
+                    </div>
+
+                    <div class="d-flex justify-content-around mb-4 mt-5">
+                        <div>
+                            <p class="text-dark">Remove Stock</p>
+                        </div>
+                        <div class="input-group w-auto justify-content-end align-items-center">
+                            <input type="button" value="-"
+                                class="button-minus border rounded-circle  icon-shape icon-sm mx-1 "
+                                data-field="quantity">
+                            <input type="number" step="1" max="100" value="1" name="quantity"
+                                class="quantity-field border-0 text-center w-25" id="stockLimit" required>
+                            <input type="button" value="+" class="button-plus border rounded-circle icon-shape icon-sm "
+                                data-field="quantity">
+                        </div>
+                    </div>
+
+                    <div id="submitdiv">
+                        <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
+                        <button class="btn btn-light">Cancel</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+{{#if productErr}}
+<script>
+    Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Product with this product Id already exist',
+        showConfirmButton: true
+    })
+</script>
+{{/if}}
+
+
+<script>
+    function incrementValue(e) {
+        e.preventDefault();
+        var fieldName = $(e.target).data('field');
+        var parent = $(e.target).closest('div');
+        var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+
+        if (!isNaN(currentVal)) {
+            parent.find('input[name=' + fieldName + ']').val(currentVal + 1);
+        } else {
+            parent.find('input[name=' + fieldName + ']').val(0);
+        }
+    }
+
+    function decrementValue(e) {
+        e.preventDefault();
+        var fieldName = $(e.target).data('field');
+        var parent = $(e.target).closest('div');
+        var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+
+        if (!isNaN(currentVal) && currentVal > 0) {
+            parent.find('input[name=' + fieldName + ']').val(currentVal - 1);
+        } else {
+            parent.find('input[name=' + fieldName + ']').val(0);
+        }
+    }
+
+    $('.input-group').on('click', '.button-plus', function (e) {
+        incrementValue(e);
+    });
+
+    $('.input-group').on('click', '.button-minus', function (e) {
+        decrementValue(e);
+    });
+</script>
+
+
+<script>
+    // form validation
+    $("#removeStockForm").submit(function (event) {
+
+        var Product = document.getElementById("select_ProductId").value;
+        var proId = document.getElementById("select_wareHouseNumber").value;
+        console.log(Product)
+        console.log(proId)
+        if (Product.trim() == " " || Product.length < 1) {
+            event.preventDefault();
+
+
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Please select a field',
+                showConfirmButton: true
+            })
+        } else if (proId.trim() == " " || proId.length < 1 || isNaN(proId)) {
+            event.preventDefault();
+
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Please select a field',
+                showConfirmButton: true
+            })
+        }
+    });
+
+
+
+    function warehouseSelect() {
+        let warehouseNumber = document.getElementById("select_wareHouseNumber").value
+        let prodcutId = document.getElementById('select_ProductId').value
+        console.log(warehouseNumber)
+        console.log(prodcutId)
+
+        $.ajax({
+            url: `/getProducts?wareHouseNumber=${warehouseNumber}`,
+            method: 'get',
+            success: (response) => {
+                console.log(response)
+                document.getElementById('select_ProductId').options[0] = new Option(`Select productId`)
+                for(let i=0;i<response.length;i++){
+                    console.log(response[i].productId)
+                    document.getElementById('select_ProductId').options[i+1] = new Option(`${response[i].productId}`)
+                }
+            }
+        })
+    }
+
+    function productSelect(){
+        let prodcutId = document.getElementById('select_ProductId').value
+        let warehouseNumber = document.getElementById("select_wareHouseNumber").value
+        console.log(prodcutId)
+        console.log(warehouseNumber)
+        $.ajax({
+            url : `/getProductStock?warehouseNumber=${warehouseNumber}&prodcutId=${prodcutId}`,
+            method : 'get',
+            success : (response) => {
+                $("input").attr({
+                    "max": response.quantity, 
+                });
+            }
+        })
+
+    }
+
+</script>

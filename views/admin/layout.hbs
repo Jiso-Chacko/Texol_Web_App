@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="admin/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="admin/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="admin/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="admin/images/favicon.ico" />
+
+    {{!-- Google Fonts --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=EB+Garamond&display=swap"
+        rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css">
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="sweetalert2.all.min.js"></script>
+
+    <link href="/cropper/cropper.min.css" rel="stylesheet" type="text/css" />
+    <script src="/javascripts/script.js"></script>
+
+
+</head>
+
+<body>
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                <a class="navbar-brand brand-logo" href="index.html">
+                    {{!-- <img src="assets/images/logo.svg" alt="logo" /> --}}
+                    <h3 style="font-family: 'ubuntu-medium', sans-serif; background: -webkit-linear-gradient(#da8cff, #9a55ff);-webkit-background-clip: text;
+                                -webkit-text-fill-color: transparent;">Texol</h3>
+                </a>
+                <a class="navbar-brand brand-logo-mini">
+
+                    <div class="nav-profile-text">
+                        <p class="mb-1 text-black">Texol Admin</p>
+                    </div>
+                </a>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-stretch">
+                <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                    <span class="mdi mdi-menu"></span>
+                </button>
+
+                <ul class="navbar-nav navbar-nav-right">
+                    <li class="nav-item nav-profile ">
+                        <a class="nav-link " id="profileDropdown" href="#" d aria-expanded="false">
+
+                            <div class="nav-profile-text">
+                                <p class="mb-1 text-black">Texol Admin</p>
+                            </div>
+                        </a>
+
+                    </li>
+
+
+                </ul>
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                    data-toggle="offcanvas">
+                    <span class="mdi mdi-menu"></span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+
+            <!-- partial:partials/_sidebar.html -->
+            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                <ul class="nav">
+
+                    <li class="nav-item mt-5">
+                        <a class="nav-link" href="/">
+                            <span class="menu-title">Dashboard</span>
+                            <i class="mdi mdi-home menu-icon"></i>
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#ui-basic1" aria-expanded="false"
+                            aria-controls="ui-basic">
+                            <span class="menu-title">Product Management</span>
+                            <i class="menu-arrow"></i>
+                            <i class="mdi mdi-basket menu-icon"></i>
+                        </a>
+                        <div class="collapse" id="ui-basic1">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="/addProduct">Add Product</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="/viewProducts">View Products</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#ui-basic2" aria-expanded="false"
+                            aria-controls="ui-basic">
+                            <span class="menu-title">Warehouse Management</span>
+                            <i class="menu-arrow"></i>
+                            <i class="mdi mdi-folder-multiple"></i>
+                        </a>
+
+                        <div class="collapse" id="ui-basic2">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="/addWarehouse">Add warehouse </a>
+                                </li>
+                                <li class="nav-item"> <a class="nav-link" href="/viewWarehouse">View all warehouse</a></li>
+                                        
+                            </ul>
+                        </div>
+
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#ui-basic4" aria-expanded="false"
+                            aria-controls="ui-basic">
+                            <span class="menu-title">Stock Management</span>
+                            <i class="menu-arrow"></i>
+                            <i class="mdi mdi-account-multiple"></i>
+                        </a>
+
+                        <div class="collapse" id="ui-basic4">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="/addStock">Add Stock</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="/removeStock">Remove Stock</a></li>
+                            </ul>
+                        </div>
+
+                    </li>
+                    
+                </ul>
+            </nav>
+
+            <!-- partial sidebar-->
+
+            {{{body}}}
+
+        </div>
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="admin/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="admin/vendors/chart.js/Chart.min.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="admin/js/off-canvas.js"></script>
+    <script src="admin/js/hoverable-collapse.js"></script>
+    <script src="admin/js/misc.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="admin/js/dashboard.js"></script>
+    <script src="admin/js/todolist.js"></script>
+    <!-- End custom js for this page -->
+
+
+
+</body>
+
+</html>

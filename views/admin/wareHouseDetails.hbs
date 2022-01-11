@@ -1,0 +1,92 @@
+
+
+
+
+
+
+
+<div class="container-fluid">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title text-center">Warehouse Number : {{wareHouse.wareHouseNumber}},<span>Current Stock : {{wareHouse.currentStock}}</span></h4>
+                {{!-- <p class="card-description"> Add class <code>.table-hover</code>
+                </p> --}}
+                <table class="table table-hover" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>Product Number</th>
+                            <th>Stock</th>
+                    
+                        </tr>
+                    </thead>
+                    {{#if wareHouseEmpty}}
+                    <tbody>
+                        <tr><td>No Items in this warehouse</td></tr>
+                    </tbody>
+                    {{/if}}
+                    <tbody>
+                        {{#each products}}
+                        <tr>
+                            <td>{{this.productId}}</td>
+                            <td>{{this.quantity}}</td>
+                                  
+                        </tr>
+                        {{/each}}
+
+
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js" defer></script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+
+    function verifyEdit(proId,proName, proTitle, proCategory, proBrand, quantity, price, img1, img2, img3) {
+        Swal.fire({
+            title: `Do you want to edit ${proName}`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#42ba96',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Edit'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.href = `/admin/editProduct?id=${proId}`
+            }
+        })
+    }
+
+    function verifyDelete(proName,proId) {
+        Swal.fire({
+            title: `Do you want to delete ${proName}`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#42ba96',
+            confirmButtonText: 'Delete'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url : `/admin/deleteProduct?id=${proId}`,
+                    method : 'get',
+                    success : ()  => {
+                        location.reload()
+                    }
+                })
+            }
+        })
+    }
+
+   
+</script>
