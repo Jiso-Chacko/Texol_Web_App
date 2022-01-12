@@ -43,7 +43,7 @@ db.connect((err) => {
     console.log('Connection Error'+err);
   }
   else{
-    console.log(`Connected successfull to port ${process.env.PORT}`);
+    console.log(`Connected successfull to port 3001`);
   }
 })
 

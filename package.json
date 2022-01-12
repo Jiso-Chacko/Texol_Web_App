@@ -18,5 +18,17 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
-  }
+  },
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jiso-Chacko/Texol_Interview_task.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jiso-Chacko/Texol_Interview_task/issues"
+  },
+  "homepage": "https://github.com/Jiso-Chacko/Texol_Interview_task#readme",
+  "description": ""
 }
